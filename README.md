@@ -1,2 +1,1 @@
-# lamz-birthday-page
-optional
+birthdaywish2.html
