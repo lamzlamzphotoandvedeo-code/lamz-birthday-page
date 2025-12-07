@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Login</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #111;
+        color: white;
+    }
+
+    /* 🔥 LOGIN BACKGROUND */
+    #loginPageBackground {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("mybg.jpg"); /* Your image */
+        background-size: cover;
+        background-position: center;
+        filter: blur(2px) brightness(0.5);
+        z-index: -1;
+        display: block;
+    }
+
+    /* 🔐 LOGIN & SIGNUP FORM CONTAINER */
+    .box {
+        width: 300px;
+        background-image: url("mybg.jpg");
+        padding: 25px;
+        border-radius: 12px;
+        background-size: cover;
+        background-position: center;
+        border: 2px solid #ff00ff;
+        margin: 100px auto;
+        text-align: center;
+        box-shadow: 0 0 15px rgba(55, 0, 255, 0.844);
+        backdrop-filter: blur(6px);
+        animation: fadeIn 1s ease-in-out;
+    }
+
+    input {
+        width: 90%;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        margin-top: 12px;
+        outline: none;
+    }
+
+    button {
+        width: 100%;
+        padding: 10px;
+        margin-top: 15px;
+        border: none;
+        background: #ff00ff;
+        color: white;
+        font-weight: bold;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    button:hover {
+        background: #ff55ff;
+    }
+
+    /* 🎂 BIRTHDAY PAGE */
+    #birthdayPage {
+        display: none;
+        text-align: center;
+        padding-top: 50px;
+    }
+
+    /* 🎂 Animated Birthday Cake */
+    .cake {
+        width: 200px;
+        margin: auto;
+        animation: bounce 2s infinite alternate;
+    }
+
+    @keyframes bounce {
+        0% { transform: translateY(0); }
+        100% { transform: translateY(-10px); }
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+</head>
+
+<body>
+
+<div id="loginPageBackground"></div>
+
+<!-- 🔐 LOGIN FORM -->
+<div id="loginBox" class="box">
+    <h2>Login</h2>
+    <input id="loginUser" type="text" placeholder="Username">
+    <input id="loginPass" type="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+    <p style="margin-top:10px;">No account? <a href="#" onclick="showSignup()">Sign Up</a></p>
+</div>
+
+<!-- 📝 SIGNUP FORM -->
+<div id="signupBox" class="box" style="display:none;">
+    <h2>Sign Up</h2>
+    <input id="newUser" type="text" placeholder="Choose Username">
+    <input id="newPass" type="password" placeholder="Choose Password">
+    <button onclick="signup()">Create Account</button>
+    <p style="margin-top:10px;">Already have an account? <a href="#" onclick="showLogin()">Login</a></p>
+</div>
+
+<!-- 🎉 BIRTHDAY PAGE -->
+<div id="birthdayPage">
+    <h1> Hii! Miss GiGi 💜</h1>
+    <h2>My birthday is on 13 December 🎂✨</h2>
+    <h3>🎉Wish me in advance!🎉</h3>
+
+    <!-- 🎂 Cake -->
+    <img class="cake" src="cake.png" alt="Birthday Cake">
+
+    <!-- 🎶 Birthday Music -->
+    <audio id="music">
+        <source src="birthday.mp3" type="audio/mpeg">
+    </audio>
+</div>
+
+<script>
+    function showSignup() {
+        document.getElementById("loginBox").style.display = "none";
+        document.getElementById("signupBox").style.display = "block";
+    }
+
+    function showLogin() {
+        document.getElementById("signupBox").style.display = "none";
+        document.getElementById("loginBox").style.display = "block";
+    }
+
+    function signup() {
+        localStorage.setItem("user", document.getElementById("newUser").value);
+        localStorage.setItem("pass", document.getElementById("newPass").value);
+        alert("Account created!");
+        showLogin();
+    }
+
+    function speakBirthdayWish() {
+        if ('speechSynthesis' in window) {
+            const msg = new SpeechSynthesisUtterance();
+            msg.text = "  Hii! Miss GiGi. My name is Lambha. my birthday is on 13 december. so wish me in advance. haha. so funny right!";
+            msg.volume = 2;
+            msg.rate = 1;
+            msg.pitch = 2;
+            window.speechSynthesis.speak(msg);
+        }
+    }
+
+    function login() {
+        let u = document.getElementById("loginUser").value;
+        let p = document.getElementById("loginPass").value;
+
+        if (u === localStorage.getItem("user") && p === localStorage.getItem("pass")) {
+            document.getElementById("loginBox").style.display = "none";
+            document.getElementById("signupBox").style.display = "none";
+            document.getElementById("loginPageBackground").style.display = "none";
+            document.getElementById("birthdayPage").style.display = "block";
+
+            document.getElementById("music").play();   // Play music
+            speakBirthdayWish();                        // Speak wish
+        } else {
+            alert("Wrong username or password!");
+        }
+    }
+</script>
+
+</body>
+</html>
